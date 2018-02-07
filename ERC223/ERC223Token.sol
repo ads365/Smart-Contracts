@@ -80,7 +80,7 @@ contract ERC223Token is ERC223 {
             __balanceOf[_from] >= _value) {
                 __balanceOf[_from] = __balanceOf[_from].sub(_value);
                 __balanceOf[_to] = __balanceOf[_to].add(_value);
-                __allowances[_from][msg.sender] -= _value;
+                __allowances[_from][msg.sender] = __allowances[_from][msg.sender].sub(_value);
                 Transfer(_from, _to, _value);
                 return true;
             }
