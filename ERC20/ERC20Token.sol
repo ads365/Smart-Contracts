@@ -33,8 +33,8 @@ contract ERC20Token is ERC20 {
     
     function transfer(address _to, uint _value) public returns (bool success) {
         if (_value > 0 && _value <= balanceOf(msg.sender)) {
-            __balanceOf[msg.sender] -= _value;
-            __balanceOf[_to] += _value;
+            __balanceOf[msg.sender] = __balanceOf[msg.sender].sub(_value);
+            __balanceOf[_to] = __balanceOf[_to].add(_value);
             Transfer(msg.sender, _to, _value);
             return true;
         }
@@ -49,8 +49,8 @@ contract ERC20Token is ERC20 {
             _value > 0 &&
             __allowances[_from][msg.sender] >= _value &&
             __balanceOf[_from] >= _value) {
-                __balanceOf[_from] -= _value;
-                __balanceOf[_to] += _value;
+                __balanceOf[_from] = __balanceOf[_from].sub(_value);
+                __balanceOf[_to] = __balanceOf[_to].add(_value);
                 __allowances[_from][msg.sender] -= _value;
                 Transfer(_from, _to, _value);
                 return true;
