@@ -38,8 +38,8 @@ contract ERC223Token is ERC223 {
         _value <= __balanceOf[msg.sender] &&
         //ERC223 specific ensures it is not a contract account
         !isContract(_to)) {
-            __balanceOf[msg.sender] -= _value;
-            __balanceOf[_to] += _value;
+            __balanceOf[msg.sender] = __balanceOf[msg.sender].sub(_value);
+            __balanceOf[_to] = __balanceOf[_to].add(_value);
             Transfer(msg.sender, _to, _value);
             return true;
         }
@@ -53,8 +53,8 @@ contract ERC223Token is ERC223 {
         if (_value > 0 && 
             _value <= __balanceOf[msg.sender] &&
             isContract(_to)) {
-                __balanceOf[msg.sender] -= _value;
-                __balanceOf[_to] += _value;
+                __balanceOf[msg.sender] = __balanceOf[msg.sender].sub(_value);
+                __balanceOf[_to] = __balanceOf[_to].add(_value);
                 ERC223ReceivingContract _contract = ERC223ReceivingContract(_to);
                     _contract.tokenFallback(msg.sender, _value, _data);
                 Transfer223(msg.sender, _to, _value, _data);
@@ -78,8 +78,8 @@ contract ERC223Token is ERC223 {
             _value > 0 &&
             __allowances[_from][msg.sender] >= _value &&
             __balanceOf[_from] >= _value) {
-                __balanceOf[_from] -= _value;
-                __balanceOf[_to] += _value;
+                __balanceOf[_from] = __balanceOf[_from].sub(_value);
+                __balanceOf[_to] = __balanceOf[_to].add(_value);
                 __allowances[_from][msg.sender] -= _value;
                 Transfer(_from, _to, _value);
                 return true;
