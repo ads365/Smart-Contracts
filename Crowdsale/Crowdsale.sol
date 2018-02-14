@@ -1,8 +1,8 @@
 pragma solidity ^0.4.0;
 
-import "browser/ERC223ReceivingContract.sol";
-import "browser/SafeMath.sol";
-import "browser/ERC223Token.sol";
+import "./token/ERC223ReceivingContract.sol";
+import "./SafeMath.sol";
+import "./token/ERC223Token.sol";
 
 contract Crowdsale is ERC223ReceivingContract {
     
