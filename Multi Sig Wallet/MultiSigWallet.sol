@@ -86,13 +86,13 @@ contract MultiSigWallet {
         
     }
     
-    function addOwner(address owner) onlyWallet ownerDoesNotExist(owner) addressExists(owner) validNumOwners(owners.length + 1, required) public {
+    function addOwner(address owner) public onlyWallet ownerDoesNotExist(owner) addressExists(owner) validNumOwners(owners.length + 1, required) {
             isOwner[owner] = true;
             owners.push(owner);
             OwnerAdded(owner);
     }
     
-    function removeOwner(address owner) onlyWallet ownerExists(owner) public {
+    function removeOwner(address owner) public onlyWallet ownerExists(owner) {
         isOwner[owner] = false;
         for (uint i=0; i<owners.length - 1; i++)
         if (owners[i] == owner) {
@@ -116,12 +116,12 @@ contract MultiSigWallet {
         DepositFunds(msg.sender, msg.value);
     }
     
-    function withdraw(uint amount) ownerExists(msg.sender) public {
+    function withdraw(uint amount) public ownerExists(msg.sender) {
         transferTo(msg.sender, amount);
     }
     
     //Create transaction and log ID
-    function transferTo(address to, uint amount) ownerExists(msg.sender) public {
+    function transferTo(address to, uint amount) public ownerExists(msg.sender) {
         require(address(this).balance >= amount);
         uint transactionID = _transactionIndex++;
         Transaction memory transaction;
@@ -137,12 +137,12 @@ contract MultiSigWallet {
         
     }
     
-    function getPendingTransactions() view ownerExists(msg.sender) public returns (uint[]) {
+    function getPendingTransactions() public view ownerExists(msg.sender) returns (uint[]) {
         return _pendingTransactions;
     }
     
     //sign, update number of signs, if requirements ment complete transaction and update storage.
-    function signTransaction(uint transactionID) ownerExists(msg.sender) public {
+    function signTransaction(uint transactionID) public ownerExists(msg.sender) {
         Transaction storage transaction = _transactions[transactionID];
         
         //trans must exist
@@ -168,7 +168,7 @@ contract MultiSigWallet {
     }
     
     //remove transaction and remove from storage, log activity
-    function deleteTransaction(uint transactionID) ownerExists(msg.sender) public {
+    function deleteTransaction(uint transactionID) public ownerExists(msg.sender) {
         uint8 replace = 0;
         for(uint i = 0; i < _pendingTransactions.length; i++) {
             if (1 == replace) {
@@ -184,7 +184,7 @@ contract MultiSigWallet {
         TransactionDeleted(transactionID, msg.sender);
     }
     
-    function walletBalance() constant public returns (uint) {
+    function walletBalance() public constant returns (uint) {
         return address(this).balance;
     }
 }
