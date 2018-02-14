@@ -1,7 +1,7 @@
 pragma solidity ^0.4.0;
 
-import "browser/ERC20Interface.sol";
-import "browser/SafeMath.sol";
+import "./ERC20Interface.sol";
+import "./SafeMath.sol";
 
 contract ERC20Token is ERC20 {
     
